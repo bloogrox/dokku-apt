@@ -12,7 +12,7 @@ export DEBIAN_FRONTEND=noninteractive
 if [ -f $DIR/apt-keys ]; then
     cat "$DIR/apt-keys" | while read key; do
         if [ -n "\$key" ]; then
-            $ wget -qO - "\$key" | sudo apt-key add -
+            wget -qO - "\$key" | sudo apt-key add -
         fi
     done
 fi
