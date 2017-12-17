@@ -10,9 +10,8 @@ DIR=/app
 COMMAND=$(cat <<EOF
 export DEBIAN_FRONTEND=noninteractive
 if [ -f $DIR/apt-keys ]; then
-    apt-get update
-    apt-get install -y wget
     cat "$DIR/apt-keys" | while read key; do
+        echo "-----> Adding key: $key"
         if [ -n "$key" ]; then
             wget -qO - $key | apt-key add -
             echo "-----> Added key: $key"
@@ -23,6 +22,7 @@ if [ -f $DIR/apt-repositories ]; then
     apt-get update
     apt-get install -y software-properties-common apt-transport-https
     cat "$DIR/apt-repositories" | while read repository; do
+        echo "-----> Adding $repository"
         if [ -n "$repository" ]; then
             add-apt-repository -y "$repository"
             echo "-----> Added repository: $repository"
