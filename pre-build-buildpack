@@ -10,9 +10,12 @@ DIR=/app
 COMMAND=$(cat <<EOF
 export DEBIAN_FRONTEND=noninteractive
 if [ -f $DIR/apt-keys ]; then
+    apt-get update
+    apt-get install -y wget
     cat "$DIR/apt-keys" | while read key; do
         if [ -n "\$key" ]; then
-            wget -qO - "\$key" | sudo apt-key add -
+            wget -qO - "\$key" | apt-key add -
+            echo "-----> Added key: \$key"
         fi
     done
 fi
@@ -22,6 +25,7 @@ if [ -f $DIR/apt-repositories ]; then
     cat "$DIR/apt-repositories" | while read repository; do
         if [ -n "\$repository" ]; then
             add-apt-repository -y "\$repository"
+            echo "-----> Added repository: \$repository"
         fi
     done
 fi
